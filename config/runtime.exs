@@ -48,7 +48,6 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
-    transport_options: [socket_opts: [:inet6]]
     secret_key_base: secret_key_base
 
   # ## SSL Support
