@@ -8,11 +8,6 @@ defmodule Arm2txt.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Arm2txtWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:arm2txt, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Arm2txt.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Arm2txt.Finch},
       # Start a worker by calling: Arm2txt.Worker.start_link(arg)
       # {Arm2txt.Worker, arg},
       # Start to serve requests, typically the last entry

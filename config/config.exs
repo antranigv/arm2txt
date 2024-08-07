@@ -28,7 +28,7 @@ config :arm2txt, Arm2txtWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :arm2txt, Arm2txt.Mailer, adapter: Swoosh.Adapters.Local
+#config :arm2txt, Arm2txt.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,

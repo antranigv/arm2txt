@@ -4,7 +4,7 @@ import Config
 #config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: Arm2txt.Finch
 
 # Disable Swoosh Local Memory Storage
-config :swoosh, local: false
+#config :swoosh, local: false
 
 # Do not print debug messages in production
 config :logger, level: :info
