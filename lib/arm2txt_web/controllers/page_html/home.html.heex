@@ -2,11 +2,9 @@
 
 <form hx-encoding='multipart/form-data'
       hx-post='/submit'
-      _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'
       hx-target='#result'
       class="flex flex-wrap"
       >
-  <input type='hidden' name='_csrf_token' value={get_csrf_token()}>
   <input type='file' name='file' accept="image/png, image/jpeg, image/tiff, .pdf"
   class="text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded">
   <button class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-2.5 outline-none rounded-md cursor-pointer ml-auto block">

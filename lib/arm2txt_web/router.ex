@@ -8,15 +8,46 @@ defmodule Arm2txtWeb.Router do
     plug :put_root_layout, html: {Arm2txtWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :remove_unwanted_param
-  end
-
-  defp remove_unwanted_param(conn, _opts) do
-    update_in(conn.params, &Map.delete(&1, "_csrf_token"))
+    plug :detect_htmx_request
+    plug :htmx_layout
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  # These functions detect an HTMX request and set the proper assigns for
+  # future use
+  def detect_htmx_request(conn, _opts) do
+    if get_req_header(conn, "hx-request") == ["true"] do
+      assign(conn, :htmx, %{
+        request: true,
+        boosted: get_req_header(conn, "hx-boosted") != [],
+        current_url: List.first(get_req_header(conn, "hx-current-url")),
+        history_restore_request: get_req_header(conn, "hx-history-restore-request") == ["true"],
+        prompt: List.first(get_req_header(conn, "hx-prompt")),
+        target: List.first(get_req_header(conn, "hx-target")),
+        trigger_name: List.first(get_req_header(conn, "hx-trigger-name")),
+        trigger: List.first(get_req_header(conn, "hx-trigger"))
+      })
+    else
+      conn
+    end
+  end
+  def htmx_layout(conn, _opts) do
+    if get_in(conn.assigns, [:htmx, :request]) do
+      conn = put_root_layout(conn, html: false)
+
+      if conn.assigns.htmx[:boosted] or conn.assigns.htmx[:history_restore_request] do
+        put_layout(conn, html: {Arm2txtWeb.Layouts, :app})
+      else
+        put_layout(conn, html: false)
+      end
+    else
+      conn
+      |> put_root_layout(html: {Arm2txtWeb.Layouts, :root})
+      |> put_layout(html: {Arm2txtWeb.Layouts, :app})
+    end
   end
 
   scope "/", Arm2txtWeb do

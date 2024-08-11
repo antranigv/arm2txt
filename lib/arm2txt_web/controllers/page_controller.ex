@@ -30,6 +30,6 @@ defmodule Arm2txtWeb.PageController do
   def home(conn, _params) do
     # The home page is often custom made,
     # so skip the default app layout.
-    render(conn, :home, result: "")
+    render(conn, :home)
   end
 end

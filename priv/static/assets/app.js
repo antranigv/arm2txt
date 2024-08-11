@@ -22,3 +22,9 @@ function copyResult(){
     2500
   );
 }
+
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+document.body.addEventListener('htmx:configRequest', (event) => {
+  event.detail.headers['x-csrf-token'] = csrfToken;
+})
+
