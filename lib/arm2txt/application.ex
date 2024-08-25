@@ -8,6 +8,7 @@ defmodule Arm2txt.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {Phoenix.PubSub, name: Arm2txt.PubSub},
       # Start a worker by calling: Arm2txt.Worker.start_link(arg)
       # {Arm2txt.Worker, arg},
       # Start to serve requests, typically the last entry

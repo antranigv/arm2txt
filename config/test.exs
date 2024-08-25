@@ -7,9 +7,6 @@ config :arm2txt, Arm2txtWeb.Endpoint,
   secret_key_base: "qfnWMaLSfrB3UuWLCmbdMfC6gA3rksOvWV+tnu5XELfi9iepzZs9GX6i2jkhfoUa",
   server: false
 
-# In test we don't send emails
-config :arm2txt, Arm2txt.Mailer, adapter: Swoosh.Adapters.Test
-
 # Disable swoosh api client as it is only required for production adapters
 #config :swoosh, :api_client, false
 

@@ -39,12 +39,23 @@ defmodule Arm2txt.MixProject do
       {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:phx_tailwind_freebsd, "~> 0.2.1", runtime: Mix.env() == :dev},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:hypa, "~> 0.2.0"}
     ]
   end
 
@@ -56,7 +67,14 @@ defmodule Arm2txt.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "assets.setup", "assets.build", "assets.deploy"],
+      "assets.setup": ["tailwind.install_freebsd --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["tailwind arm2txt", "esbuild arm2txt"],
+      "assets.deploy": [
+        "tailwind arm2txt --minify",
+        "esbuild arm2txt --minify",
+        "phx.digest"
+      ]
     ]
   end
 end
